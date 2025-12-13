@@ -207,17 +207,15 @@ if(global.monster[0] == 0 &amp;&amp; global.monster[1] == 0 &amp;&amp; global.mo
                 }
                 if(global.bmenuno == 1 || global.bmenuno == 2 || global.bmenuno == 11) {
                     global.msc= 3;
-                    if(global.monster[global.bmenucoord[1]] == 0)
+                    if(global.monster[global.bmenucoord[1]] == 0) {
                         global.bmenucoord[1]++;
-                    if(global.monster[global.bmenucoord[1]] == 0)
-                        global.bmenucoord[1]++;
-                    if(global.monster[0] == 0 &amp;&amp; global.monster[2] == 0)
-                        global.bmenucoord[1]= 1;
-                    if(global.bmenucoord[1] &gt; 2) {
-                        global.bmenucoord[1]= 0;
-                        if(global.monster[0] == 0) global.bmenucoord[1]= 1;
-                        if(global.monster[1] == 0) global.bmenucoord[1]= 2;
-                        if(global.monster[2] == 0) global.bmenucoord[1]= 0;
+                        if(global.bmenucoord[1] > 2)
+                            global.bmenucoord[1]= 0;
+                        if(global.monster[global.bmenucoord[1]] == 0) {
+                            global.bmenucoord[1]++;
+                            if(global.bmenucoord[1] > 2)
+                                global.bmenucoord[1]= 0;
+                        }
                     }
                 }
                 if(global.bmenuno == 3) {
