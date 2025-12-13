@@ -322,55 +322,61 @@ myy= writingy;
 n= 1;
 while(n &lt; stringpos + 1) {
     nskip= 0;
-    if(string_char_at(originalstring, n) == "&amp;") {
+    mychar= string_char_at(originalstring, n);
+    if(mychar == "&amp;") {
         script_execute(148/* SCR_NEWLINE */);
         n++;
+        mychar= string_char_at(originalstring, n);
     }
-    if(string_char_at(originalstring, n) == "^") {
+    if(mychar == "^") {
         if(string_char_at(originalstring, n + 1) == "0") nskip= 1;
-        else  n+= 2;
+        else {
+             n+= 2;
+             mychar= string_char_at(originalstring, n);
+        }
     }
-    if(string_char_at(originalstring, n) == "\" + chr(ord('"'))+ " + ") {
-        if(string_char_at(originalstring, n + 1) == "R")
+    if(mychar == "\" + chr(ord('"'))+ " + ") {
+        nextchar= string_char_at(originalstring, n + 1);
+        if(nextchar == "R")
             mycolor= 255;
-        if(string_char_at(originalstring, n + 1) == "G")
+        if(nextchar == "G")
             mycolor= 65280;
-        if(string_char_at(originalstring, n + 1) == "W")
+        if(nextchar == "W")
             mycolor= 16777215;
-        if(string_char_at(originalstring, n + 1) == "Y")
+        if(nextchar == "Y")
             mycolor= 65535;
-        if(string_char_at(originalstring, n + 1) == "X")
+        if(nextchar == "X")
             mycolor= 0;
-        if(string_char_at(originalstring, n + 1) == "B")
+        if(nextchar == "B")
             mycolor= 16711680;
-        if(string_char_at(originalstring, n + 1) == "O")
+        if(nextchar == "O")
             mycolor= 4235519;
-        if(string_char_at(originalstring, n + 1) == "L")
+        if(nextchar == "L")
             mycolor= 16754964;
-        if(string_char_at(originalstring, n + 1) == "P")
+        if(nextchar == "P")
             mycolor= 16711935;
-        if(string_char_at(originalstring, n + 1) == "p")
+        if(nextchar == "p")
             mycolor= 13941759;
-        if(string_char_at(originalstring, n + 1) == "C" &amp;&amp; global.inbattle == 0) {
+        if(nextchar == "C" &amp;&amp; global.inbattle == 0) {
             if(!instance_exists(783/* obj_choicer */))
                 choicer= instance_create(0, 0, 783/* obj_choicer */);
             choicer.creator= id;
             halt= 5;
         }
-        if(string_char_at(originalstring, n + 1) == "M") {
+        if(nextchar == "M") {
             global.flag[20]= real(string_char_at(originalstring, n + 2));
             n++;
         }
-        if(string_char_at(originalstring, n + 1) == "E") {
+        if(nextchar == "E") {
             global.faceemotion= real(string_char_at(originalstring, n + 2));
             n++;
         }
-        if(string_char_at(originalstring, n + 1) == "F") {
+        if(nextchar == "F") {
             global.facechoice= real(string_char_at(originalstring, n + 2));
             global.facechange= 1;
             n++;
         }
-        if(string_char_at(originalstring, n + 1) == "T") {
+        if(nextchar == "T") {
             newtyper= string_char_at(originalstring, n + 2);
             if(newtyper == "T") global.typer= 4;
             if(newtyper == "t") global.typer= 48;
@@ -388,7 +394,7 @@ while(n &lt; stringpos + 1) {
             global.facechange= 1;
             n++;
         }
-        if(string_char_at(originalstring, n + 1) == "z") {
+        if(nextchar == "z") {
             sym= real(string_char_at(originalstring, n + 2));
             sym_s= 837;
             if(sym == 4) sym_s= 837;
@@ -397,8 +403,9 @@ while(n &lt; stringpos + 1) {
             n++;
         }
         n+= 2;
+        mychar= string_char_at(originalstring, n);
     }
-    if(string_char_at(originalstring, n) == "/") {
+    if(mychar == "/") {
         halt= 1;
         if(string_char_at(originalstring, n + 1) == "%") halt= 2;
         if(string_char_at(originalstring, n + 1) == "^" &amp;&amp; string_char_at(originalstring, n + 2) != "0")
@@ -406,7 +413,7 @@ while(n &lt; stringpos + 1) {
         if(string_char_at(originalstring, n + 1) == "*") halt= 6;
         break;
     } else  {
-        if(string_char_at(originalstring, n) == "%") {
+        if(mychar == "%") {
             if(string_char_at(originalstring, n + 1) == "%") {
                 instance_destroy();
                 break;
@@ -423,7 +430,7 @@ while(n &lt; stringpos + 1) {
             }
         } else  {
             if(myx &gt; writingxend) script_execute(148/* SCR_NEWLINE */);
-            myletter= string_char_at(originalstring, n);
+            myletter= mychar;
             if(global.typer == 18) {
                 if(myletter == "l" || myletter == "i") myx+= 2;
                 if(myletter == "I") myx+= 2;
