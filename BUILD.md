@@ -21,7 +21,7 @@ To build and run this project, you need one of the following:
 ## Building with GameMaker Studio 2
 
 1.  Launch GameMaker Studio 2.
-2.  Click "Open" or "Import".
+2.  Click "Import".
 3.  Select the `projectA.project.gmx` file.
 4.  GMS2 will prompt you to import the project. Follow the on-screen instructions to convert it to the GMS2 format.
     *   *Note: Compatibility scripts may be generated during this process.*
