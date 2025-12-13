@@ -102,6 +102,12 @@ if(x &gt; 440) {
         global.msg[2]= "* tem will be happily fambily,/%%";
     }
 }
+else if (random(100) < 1) {
+    global.msg[0] = "* hOI!^1!&* im temmie!!!/";
+    global.msg[1] = "* (You feel like you've been here before.)/";
+    global.msg[2] = "* (But something is different.)/";
+    global.msg[3] = "* (The code... it's changing.)/%%";
+}
 mydialoguer= instance_create(0, 0, 779/* obj_dialoguer */);
 talkedto++;
 </string>
