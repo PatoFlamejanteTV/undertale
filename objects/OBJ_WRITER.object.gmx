@@ -319,6 +319,8 @@ if(halt == 4) {
             <kind>1</kind>
             <string>myx= writingx;
 myy= writingy;
+var last_font = -1;
+var last_color = -1;
 n= 1;
 while(n &lt; stringpos + 1) {
     nskip= 0;
@@ -435,8 +437,14 @@ while(n &lt; stringpos + 1) {
                 if(myletter == "A") myx++;
                 if(myletter == "\'") myx++;
             }
-            draw_set_font(myfont);
-            draw_set_color(mycolor);
+            if (myfont != last_font) {
+                draw_set_font(myfont);
+                last_font = myfont;
+            }
+            if (mycolor != last_color) {
+                draw_set_color(mycolor);
+                last_color = mycolor;
+            }
             if(shake &gt; 38) {
                 if(shake == 39) {
                     direction+= 10;
