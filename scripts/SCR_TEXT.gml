@@ -1773,6 +1773,12 @@ switch(argument0) {
         if(global.armor == 12) armor= "FADED RIBBON";
         if(global.armor == 15) armor= "BANDANNA";
         if(global.armor == 24) armor= "DUSTY TUTU";
+        if(global.armor == 44) armor= "CLOUDY GLASSES";
+        if(global.armor == 46) armor= "STAINED APRON";
+        if(global.armor == 48) armor= "COWBOY HAT";
+        if(global.armor == 50) armor= "HEART LOCKET";
+        if(global.armor == 53) armor= "THE LOCKET";
+        if(global.armor == 64) armor= "TEMMIE ARMOR";
         global.flag[75]= global.armor;
         global.msg[0]= "* Ring..\\E0./";
         scr_papface(1, 0);
@@ -1795,6 +1801,12 @@ switch(argument0) {
         if(global.armor == 12) armor= "FADED RIBBON";
         if(global.armor == 15) armor= "BANDANNA";
         if(global.armor == 24) armor= "DUSTY TUTU";
+        if(global.armor == 44) armor= "CLOUDY GLASSES";
+        if(global.armor == 46) armor= "STAINED APRON";
+        if(global.armor == 48) armor= "COWBOY HAT";
+        if(global.armor == 50) armor= "HEART LOCKET";
+        if(global.armor == 53) armor= "THE LOCKET";
+        if(global.armor == 64) armor= "TEMMIE ARMOR";
         scr_papface(0, 0);
         if(global.choice == 0) {
             global.flag[76]= 0;
@@ -2545,10 +2557,22 @@ switch(argument0) {
         if(global.flag[75] == 12) armor1= "FADED RIBBON";
         if(global.flag[75] == 15) armor1= "BANDANNA";
         if(global.flag[75] == 24) armor1= "DUSTY TUTU";
+        if(global.flag[75] == 44) armor1= "CLOUDY GLASSES";
+        if(global.flag[75] == 46) armor1= "STAINED APRON";
+        if(global.flag[75] == 48) armor1= "COWBOY HAT";
+        if(global.flag[75] == 50) armor1= "HEART LOCKET";
+        if(global.flag[75] == 53) armor1= "THE LOCKET";
+        if(global.flag[75] == 64) armor1= "TEMMIE ARMOR";
         if(global.flag[77] == 4) armor2= "GROSS BANDAGE";
         if(global.flag[77] == 12) armor2= "FADED RIBBON";
         if(global.flag[77] == 15) armor2= "BANDANNA";
         if(global.flag[77] == 24) armor2= "DUSTY TUTU";
+        if(global.flag[77] == 44) armor2= "CLOUDY GLASSES";
+        if(global.flag[77] == 46) armor2= "STAINED APRON";
+        if(global.flag[77] == 48) armor2= "COWBOY HAT";
+        if(global.flag[77] == 50) armor2= "HEART LOCKET";
+        if(global.flag[77] == 53) armor2= "THE LOCKET";
+        if(global.flag[77] == 64) armor2= "TEMMIE ARMOR";
         global.msg[0]= "* Ring..\\E0./";
         scr_papface(1, 0);
         global.msg[2]= "HELLO^1!&THIS IS PAPYRUS!!!/";
