@@ -12,7 +12,7 @@ To build and run this project, you need one of the following:
 ## Building with GameMaker: Studio 1.4
 
 1.  Launch GameMaker: Studio 1.4.
-2.  Click on the "Import" tab or "Open" button.
+2.  Click on the "Open" button.
 3.  Navigate to the root directory of this repository.
 4.  Select the `projectA.project.gmx` file.
 5.  Once opened, you can run the game by pressing the green "Play" button (or F5).
