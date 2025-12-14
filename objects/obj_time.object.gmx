@@ -231,33 +231,42 @@ if(j_ch &gt; 0) {
     if(j_fd != j_fd_p &amp;&amp; j_fd == 0) keyboard_key_release(40);
     if(j_fu != j_fu_p &amp;&amp; j_fu == 0) keyboard_key_release(38);
 }
+var k_up, k_down, k_left, k_right, k_up_r, k_down_r, k_left_r, k_right_r;
+k_up= keyboard_check(38/* UP */);
+k_down= keyboard_check(40/* DOWN */);
+k_left= keyboard_check(37/* LEFT */);
+k_right= keyboard_check(39/* RIGHT */);
+k_up_r= keyboard_check_released(38/* UP */);
+k_down_r= keyboard_check_released(40/* DOWN */);
+k_left_r= keyboard_check_released(37/* LEFT */);
+k_right_r= keyboard_check_released(39/* RIGHT */);
 up= 0;
 down= 0;
 left= 0;
 right= 0;
-if(keyboard_check(38/* UP */)) try_up= 1;
-if(keyboard_check_released(38/* UP */)) try_up= 0;
-if(keyboard_check(40/* DOWN */)) try_down= 1;
-if(keyboard_check_released(40/* DOWN */)) try_down= 0;
-if(keyboard_check(39/* RIGHT */)) try_right= 1;
-if(keyboard_check_released(39/* RIGHT */)) try_right= 0;
-if(keyboard_check(37/* LEFT */)) try_left= 1;
-if(keyboard_check_released(37/* LEFT */)) try_left= 0;
+if(k_up) try_up= 1;
+if(k_up_r) try_up= 0;
+if(k_down) try_down= 1;
+if(k_down_r) try_down= 0;
+if(k_right) try_right= 1;
+if(k_right_r) try_right= 0;
+if(k_left) try_left= 1;
+if(k_left_r) try_left= 0;
 if(global.osflavor == 1) {
     if(try_up) up= keyboard_check_direct(38);
     if(try_down) down= keyboard_check_direct(40);
     if(try_left) left= keyboard_check_direct(37);
     if(try_right) right= keyboard_check_direct(39);
 } else  {
-    if(try_up) up= keyboard_check(38/* UP */);
-    if(try_down) down= keyboard_check(40/* DOWN */);
-    if(try_left) left= keyboard_check(37/* LEFT */);
-    if(try_right) right= keyboard_check(39/* RIGHT */);
+    if(try_up) up= k_up;
+    if(try_down) down= k_down;
+    if(try_left) left= k_left;
+    if(try_right) right= k_right;
 }
-if(keyboard_check_released(38/* UP */)) up= 0;
-if(keyboard_check_released(40/* DOWN */)) down= 0;
-if(keyboard_check_released(37/* LEFT */)) left= 0;
-if(keyboard_check_released(39/* RIGHT */)) right= 0;
+if(k_up_r) up= 0;
+if(k_down_r) down= 0;
+if(k_left_r) left= 0;
+if(k_right_r) right= 0;
 if(keyboard_multicheck(2/* UNKNOWN(2) */) &amp;&amp; global.flag[28] == 1 &amp;&amp; instance_exists(782/* OBJ_WRITER */) &amp;&amp; !instance_exists(783/* obj_choicer */)) {
     if(h_skip == 0) {
         keyboard_key_press(88/* X */);
