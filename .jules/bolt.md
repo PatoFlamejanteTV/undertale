@@ -1,0 +1,3 @@
+## 2024-05-24 - [GML String Parsing Bottleneck]
+**Learning:** The `OBJ_WRITER` object parses text strings character-by-character every single frame in its Draw event to handle control codes (like color, font, delays). This is a significant performance anti-pattern as string parsing in GML (especially `string_char_at`) inside a loop that runs every frame is expensive.
+**Action:** For future optimizations, a major win would be to parse the string *once* (e.g., when the text is set or incrementally as it types) and store the visual state (x, y, char, color, font) in a list or array. The Draw event would then just iterate this pre-calculated list.
