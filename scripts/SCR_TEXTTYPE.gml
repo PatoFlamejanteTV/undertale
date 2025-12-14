@@ -36,8 +36,8 @@ switch(global.typer) {
     case 36: SCR_TEXTSETUP(2, 16777215, x + 20, y + 20, view_xview[view_current] + 290, 0, 8, 85, 10, 18); break;
     case 37: SCR_TEXTSETUP(2, 16777215, x + 20, y + 20, view_xview[view_current] + 290, 0, 1, 78, 8, 18); break;
     case 38: SCR_TEXTSETUP(2, 16777215, x + 20, y + 20, view_xview[view_current] + 290, 0, 6, 78, 8, 18); break;
-    case 39: SCR_TEXTSETUP(4, 0, x + 16, y, x + 190, 0, 1, 78, 9, 20); break;
     case 40: SCR_TEXTSETUP(4, 0, x + 16, y, x + 190, 1, 2, 78, 9, 20); break;
+    case 39: // Fallthrough
     case 41: SCR_TEXTSETUP(4, 0, x + 16, y, x + 190, 0, 1, 78, 9, 20); break;
     case 42: SCR_TEXTSETUP(4, 0, x + 16, y, x + 190, 2, 4, 78, 9, 20); break;
     case 43: SCR_TEXTSETUP(4, 0, x + 16, y, x + 190, 2, 4, 80, 9, 20); break;
