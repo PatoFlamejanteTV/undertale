@@ -319,8 +319,8 @@ if(halt == 4) {
             <kind>1</kind>
             <string>myx= writingx;
 myy= writingy;
-var last_font = -1;
-var last_color = -1;
+var last_font = draw_get_font();
+var last_color = draw_get_color();
 n= 1;
 while(n &lt; stringpos + 1) {
     nskip= 0;
