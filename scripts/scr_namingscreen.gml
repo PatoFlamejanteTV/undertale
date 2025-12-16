@@ -142,6 +142,10 @@ if(naming == 2) {
         spec_m= "You are really scraping the#bottom of the barrel.";
         allow= 1;
     }
+if(l_char == "pato" || l_char == "patu" || l_char == "patuu" || l_char == "quack") {
+        spec_m= "nem fodendo prr#KKKKKKKKKKKKKKKKKKKKKKKKK";
+        allow= 0;
+    }
     demonx= "Part of this game\'s charm is the mystery of how many options or secrets there are. If you are reading this, please don\'t post this message or this information anywhere. Or doing secrets will become pointless.";
     if(l_char == "gaster") game_restart();
     if(keyboard_multicheck_pressed(0/* NOKEY */) == 1) {
@@ -161,14 +165,14 @@ if(naming == 2) {
         draw_set_color(16777215);
         if(allow == 1) {
             if(selected2 == 0) draw_set_color(65535);
-            draw_text(70, 200, "No");
+            draw_text(70, 200, "Nah");
             draw_set_color(16777215);
             if(selected2 == 1) draw_set_color(65535);
-            draw_text(210, 200, "Yes");
+            draw_text(210, 200, "Yea");
         }
         if(allow == 0) {
             draw_set_color(65535);
-            draw_text(70, 200, "Go back");
+            draw_text(70, 200, "Nvm");
             draw_set_color(16777215);
         }
         if(allow == 1) {
