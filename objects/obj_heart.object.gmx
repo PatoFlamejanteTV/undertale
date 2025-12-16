@@ -54,6 +54,8 @@ confuse= 0;
 charge= 0;
 ignore_border= 0;
 slam_pain= 0;
+dash_timer= 0;
+dash_cooldown= 0;
 </string>
           </argument>
         </arguments>
@@ -80,6 +82,28 @@ slam_pain= 0;
 else  {
     if(movement == 0) movement= 1;
 }
+
+// Dash Logic
+if (dash_cooldown > 0) dash_cooldown--;
+if (dash_timer > 0) {
+    dash_timer--;
+    global.sp = global.asp * 3; // Boost speed
+    global.invc = 20; // Maintain invincibility
+    // Create afterimage effect
+    if (dash_timer % 3 == 0) {
+         // This would require creating a new object or managing draw manually.
+         // Simplified: Just speed and invincibility for now.
+    }
+} else {
+    global.sp = global.asp;
+}
+
+if (keyboard_check_pressed(67) && dash_cooldown <= 0 && movement == 1) { // 67 is 'C'
+    dash_timer = 8;
+    dash_cooldown = 40;
+    snd_play(28/* snd_bell */); // Placeholder sound
+}
+
 global.invc--;
 if(global.invc &gt; 0 || obj_battlecontroller.runaway == 1)
     image_speed= 0.5;
@@ -512,6 +536,41 @@ if(movement == 2 &amp;&amp; jumpstage == 1 &amp;&amp; vspeed == 0) {
     snd_play(21/* snd_impact */);
     s_s= instance_create(0, 0, 512/* obj_sans_shaker */);
     s_s.intensity= floor(speed / 3);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (dash_timer &gt; 0) {
+    image_alpha = 0.5;
+    draw_self();
+    image_alpha = 1;
+} else {
+    if (dash_cooldown &gt; 0) {
+        image_blend = 8421504; // c_gray
+        draw_self();
+        image_blend = 16777215; // c_white
+    } else {
+        draw_self();
+    }
 }
 </string>
           </argument>
