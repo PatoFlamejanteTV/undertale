@@ -113,6 +113,8 @@ inwater= 0;
 h_skip= 0;
 uncan= 0;
 m_override= 0;
+dash_timer= 0;
+dash_cooldown= 0;
 </string>
           </argument>
         </arguments>
@@ -197,10 +199,25 @@ if(global.inbattle == 1) {
     if(global.flag[200] != 0 &amp;&amp; global.flag[201] != global.kills)
         global.flag[global.flag[200]]+= global.kills - global.flag[201];
 }
+
+var mv_speed = 3;
+if (dash_cooldown &gt; 0) dash_cooldown--;
+
+if (global.interact == 0 &amp;&amp; dash_cooldown == 0 &amp;&amp; (keyboard_check_pressed(global.button2) || keyboard_check_pressed(ord('C')))) {
+    dash_timer = 8;
+    dash_cooldown = 20;
+    snd_play(50/* snd_escaped */);
+}
+
+if (dash_timer &gt; 0) {
+    mv_speed = 6;
+    dash_timer--;
+}
+
 if(obj_time.left == 1 &amp;&amp; movement == 1) {
     turned= 1;
-    if(xprevious == x + 3) x-= 2;
-    else  x-= 3;
+    if(xprevious == x + 3) x-= (mv_speed - 1);
+    else  x-= mv_speed;
     if(moving != 1) image_index= 1;
     moving= 1;
     if(global.debug == 1 &amp;&amp; keyboard_check(8/* BACKSPACE */))
@@ -212,7 +229,7 @@ if(obj_time.left == 1 &amp;&amp; movement == 1) {
 }
 if(obj_time.up == 1 &amp;&amp; movement == 1) {
     turned= 1;
-    y-= 3;
+    y-= mv_speed;
     if(global.debug == 1 &amp;&amp; keyboard_check(8/* BACKSPACE */))
         y-= 5;
     if(moving != 1) image_index= 1;
@@ -224,8 +241,8 @@ if(obj_time.up == 1 &amp;&amp; movement == 1) {
 }
 if(obj_time.right == 1 &amp;&amp; movement == 1 &amp;&amp; keyboard_check(37/* LEFT */) == 0) {
     turned= 1;
-    if(xprevious == x - 3) x+= 2;
-    else  x+= 3;
+    if(xprevious == x - 3) x+= (mv_speed - 1);
+    else  x+= mv_speed;
     if(global.debug == 1 &amp;&amp; keyboard_check(8/* BACKSPACE */))
         x+= 5;
     moving= 1;
@@ -237,7 +254,7 @@ if(obj_time.right == 1 &amp;&amp; movement == 1 &amp;&amp; keyboard_check(37/* L
 }
 if(obj_time.down == 1 &amp;&amp; movement == 1 &amp;&amp; keyboard_check(38/* UP */) == 0) {
     turned= 1;
-    y+= 3;
+    y+= mv_speed;
     if(global.debug == 1 &amp;&amp; keyboard_check(8/* BACKSPACE */))
         y+= 5;
     if(moving != 1) image_index= 1;
