@@ -655,5 +655,12 @@
     <option_xbone_texture_page>1024</option_xbone_texture_page>
     <option_xbone_title_id>1234ABCD</option_xbone_title_id>
   </Options>
-  <ConfigConstants/>
+  <ConfigConstants>
+    <Constants>
+      <constant>
+        <name>DASH_CHEAT_ENABLED</name>
+        <value>1</value>
+      </constant>
+    </Constants>
+  </ConfigConstants>
 </Config>
