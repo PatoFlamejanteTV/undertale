@@ -25,17 +25,25 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>up= 0;
+            <string>// Directional input state
+up= 0;
 down= 0;
 left= 0;
 right= 0;
+
+// Quit timer (holding ESC)
 quit= 0;
+
+// Raw input flags before processing
 try_up= 0;
 try_down= 0;
 try_left= 0;
 try_right= 0;
-canquit= 1;
-h_skip= 0;
+
+canquit= 1; // Can the game be quit via ESC?
+h_skip= 0;  // Text skipping flag
+
+// Joystick axis variables
 j_xpos= 0;
 j_ypos= 0;
 j_dir= 0;
@@ -53,24 +61,32 @@ while(i &lt; 12) {
     j_on[i]= 0;
     i++;
 }
-global.button0= 2;
-global.button1= 1;
-global.button2= 4;
+// Default joystick button mappings
+global.button0= 2; // Z / Confirm
+global.button1= 1; // X / Cancel
+global.button2= 4; // C / Menu
+
+// Analog stick sensitivity settings
 global.analog_sense= 0.15;
 global.analog_sense_sense= 0.01;
 global.joy_dir= 0;
+
+// Load joystick config from ini
 ini_open("config.ini");
 b0_i= ini_read_real("joypad1", "b0", -1);
 b1_i= ini_read_real("joypad1", "b1", -1);
 b2_i= ini_read_real("joypad1", "b2", -1);
 as_i= ini_read_real("joypad1", "as", -1);
 jd_i= ini_read_real("joypad1", "jd", -1);
+
+// Apply loaded config if valid
 if(b0_i &gt;= 0) global.button0= b0_i;
 if(b1_i &gt;= 0) global.button1= b1_i;
 if(b2_i &gt;= 0) global.button2= b2_i;
 if(as_i &gt;= 0) global.analog_sense= as_i;
 if(jd_i &gt;= 0) global.joy_dir= jd_i;
 ini_close();
+
 debug_r= 0;
 debug_f= 0;
 j1= 0;
@@ -125,6 +141,9 @@ spec_rtimer= 0;
           <argument>
             <kind>1</kind>
             <string>time++;
+
+// Joystick polling logic
+// Checks for joystick existence periodically
 if(jt == 0 &amp;&amp; j_ch != 2) {
     if(joystick_exists(1)) j_ch= 1;
     else  {
@@ -139,19 +158,26 @@ if(jt == 4 &amp;&amp; j_ch != 1) {
 }
 jt++;
 if(jt &gt;= 8) jt= 0;
+
+// Handle Joystick Inputs
 if(j_ch &gt; 0) {
+    // Map Button 0 to Z (Confirm)
     j_prev[0]= j_on[0];
     j_on[0]= joystick_check_button(j_ch, global.button0);
     if(j_on[0] == 1 &amp;&amp; j_prev[0] != j_on[0])
         keyboard_key_press(90/* Z */);
     if(j_on[0] == 0 &amp;&amp; j_prev[0] != j_on[0])
         keyboard_key_release(90);
+
+    // Map Button 1 to X (Cancel)
     j_prev[1]= j_on[1];
     j_on[1]= joystick_check_button(j_ch, global.button1);
     if(j_on[1] == 1 &amp;&amp; j_prev[1] != j_on[1])
         keyboard_key_press(88/* X */);
     if(j_on[1] == 0 &amp;&amp; j_prev[1] != j_on[1])
         keyboard_key_release(88);
+
+    // Map Button 2 to C (Menu)
     j_prev[2]= j_on[2];
     j_on[2]= joystick_check_button(j_ch, global.button2);
     if(j_on[2] == 1 &amp;&amp; j_prev[2] != j_on[2])
@@ -231,6 +257,8 @@ if(j_ch &gt; 0) {
     if(j_fd != j_fd_p &amp;&amp; j_fd == 0) keyboard_key_release(40);
     if(j_fu != j_fu_p &amp;&amp; j_fu == 0) keyboard_key_release(38);
 }
+
+// Keyboard Input Processing
 var k_up, k_down, k_left, k_right, k_up_r, k_down_r, k_left_r, k_right_r;
 k_up= keyboard_check(38/* UP */);
 k_down= keyboard_check(40/* DOWN */);
@@ -240,10 +268,14 @@ k_up_r= keyboard_check_released(38/* UP */);
 k_down_r= keyboard_check_released(40/* DOWN */);
 k_left_r= keyboard_check_released(37/* LEFT */);
 k_right_r= keyboard_check_released(39/* RIGHT */);
+
+// Reset directional flags
 up= 0;
 down= 0;
 left= 0;
 right= 0;
+
+// Update 'try' flags based on current key state
 if(k_up) try_up= 1;
 if(k_up_r) try_up= 0;
 if(k_down) try_down= 1;
@@ -252,6 +284,8 @@ if(k_right) try_right= 1;
 if(k_right_r) try_right= 0;
 if(k_left) try_left= 1;
 if(k_left_r) try_left= 0;
+
+// Check actual input (DirectInput vs Standard)
 if(global.osflavor == 1) {
     if(try_up) up= keyboard_check_direct(38);
     if(try_down) down= keyboard_check_direct(40);
@@ -263,10 +297,14 @@ if(global.osflavor == 1) {
     if(try_left) left= k_left;
     if(try_right) right= k_right;
 }
+
+// Release directional flags on key release
 if(k_up_r) up= 0;
 if(k_down_r) down= 0;
 if(k_left_r) left= 0;
 if(k_right_r) right= 0;
+
+// Text Skipping Logic (Simulate holding X and Z)
 if(keyboard_multicheck(2/* UNKNOWN(2) */) &amp;&amp; global.flag[28] == 1 &amp;&amp; instance_exists(782/* OBJ_WRITER */) &amp;&amp; !instance_exists(783/* obj_choicer */)) {
     if(h_skip == 0) {
         keyboard_key_press(88/* X */);
@@ -279,14 +317,20 @@ if(keyboard_multicheck(2/* UNKNOWN(2) */) &amp;&amp; global.flag[28] == 1 &amp;&
     if(h_skip == 0) h_skip= 1;
     else  h_skip= 0;
 }
+
+// Debug Controls
 if(global.debug == 1 &amp;&amp; keyboard_check_pressed(70/* F */))
-    room_speed= 200;
+    room_speed= 200; // Turbo speed
 if(global.debug == 1 &amp;&amp; keyboard_check_pressed(87/* W */))
-    room_speed= 10;
+    room_speed= 10; // Slow motion
+
+// Fullscreen Toggle (F4)
 if(keyboard_check_pressed(115/* F4 */)) {
     if(window_get_fullscreen()) window_set_fullscreen(0);
     else  window_set_fullscreen(1);
 }
+
+// Quit Game Logic (Hold ESC)
 if(canquit == 1) {
     if(global.debug == 1 &amp;&amp; keyboard_check_pressed(82/* R */) &amp;&amp; !instance_exists(409/* obj_essaystuff */)) {
         debug_r++;

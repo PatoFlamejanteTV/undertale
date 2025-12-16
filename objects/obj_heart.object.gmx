@@ -25,12 +25,24 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.sp= global.asp;
+            <string>// Initialize speed from global setting
+global.sp= global.asp;
+
+// Movement mode:
+// 0: None/Menu
+// 1: Red Soul (Free movement)
+// 2: Blue Soul (Gravity affected, jumping)
+// 11, 12, 13: Blue Soul directional variants
 movement= 0;
+
+// Jump state for Blue Soul mechanics
 jumpstage= 0;
+
 hgo= 0;
 vgo= 0;
-shot= 0;
+shot= 0; // Can shoot (Yellow Soul)?
+
+// Battle menu navigation variables
 global.bmenuno= 0;
 global.bmenucoord[0]= 0;
 global.bmenucoord[1]= 0;
@@ -50,10 +62,10 @@ global.myfight= 0;
 global.mnfight= 0;
 global.xpreward[3]= 0;
 global.goldreward[3]= 0;
-confuse= 0;
-charge= 0;
-ignore_border= 0;
-slam_pain= 0;
+confuse= 0; // Confused status effect
+charge= 0;  // Charge shot timer (Yellow Soul)
+ignore_border= 0; // Debug/Cinematic flag to ignore box boundaries
+slam_pain= 0; // Damage on slamming into walls (Blue Soul)
 </string>
           </argument>
         </arguments>
@@ -76,57 +88,79 @@ slam_pain= 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.mnfight != 2) movement= 0;
+            <string>// Disable movement if not in fighting phase (mnfight == 2)
+if(global.mnfight != 2) movement= 0;
 else  {
+    // Default to Red Soul (1) if no movement set
     if(movement == 0) movement= 1;
 }
+
+// Invincibility frame countdown
 global.invc--;
 if(global.invc &gt; 0 || obj_battlecontroller.runaway == 1)
-    image_speed= 0.5;
+    image_speed= 0.5; // Flashing animation when invincible or running
 else  {
     image_index= 0;
     image_speed= 0;
 }
+
+// Yellow Soul shooting mechanics
 charge--;
 if(shot == 1 &amp;&amp; keyboard_multicheck_pressed(0/* NOKEY */) &amp;&amp; global.mnfight == 2 &amp;&amp; (instance_number(739) == 0 || charge &lt; 0)) {
     charge= 14;
     instance_create(x + 4, y + 2, 739/* obj_heartshot */);
     snd_play(116/* snd_heartshot */);
 }
+
+// Rotation for specific sprite (likely Blue Soul jump/spin)
 if(sprite_index == 35) image_angle+= 6;
+
+// Confusion effect constraint logic
 if(confuse == 1 &amp;&amp; global.mnfight == 2) {
     if(x &lt; obj_lborder.x + 8) x= obj_lborder.x + 8;
     if(y &lt; obj_uborder.x + 8) y= obj_uborder.x + 8;
     if(x &gt; obj_rborder.x - 8) x= obj_rborder.x - 8;
     if(y &gt; obj_dborder.y - 8) y= obj_dborder.y - 8;
 }
+
+// Special Blue Soul Gravity: RIGHT (Movement 11)
+// Gravity pulls Right, so 'Jumping' is Left
 if(movement == 11) {
     vspeed= 0;
     if(keyboard_check(38/* UP */)) y-= global.sp;
     if(keyboard_check(40/* DOWN */)) y+= global.sp;
     if(keyboard_check(37/* LEFT */) &amp;&amp; jumpstage == 1 &amp;&amp; hspeed == 0) {
         jumpstage= 2;
-        hspeed= -6;
+        hspeed= -6; // Jump Left
     }
 }
+
+// Special Blue Soul Gravity: UP (Movement 12)
+// Gravity pulls Up, so 'Jumping' is Down
 if(movement == 12) {
     hspeed= 0;
     if(keyboard_check(37/* LEFT */)) x-= global.sp;
     if(keyboard_check(39/* RIGHT */)) x+= global.sp;
     if(keyboard_check(40/* DOWN */) &amp;&amp; jumpstage == 1 &amp;&amp; vspeed == 0) {
         jumpstage= 2;
-        vspeed= 6;
+        vspeed= 6; // Jump Down
     }
 }
+
+// Special Blue Soul Gravity: LEFT (Movement 13)
+// Gravity pulls Left, so 'Jumping' is Right
 if(movement == 13) {
     vspeed= 0;
     if(keyboard_check(38/* UP */)) y-= global.sp;
     if(keyboard_check(40/* DOWN */)) y+= global.sp;
     if(keyboard_check(39/* RIGHT */) &amp;&amp; jumpstage == 1 &amp;&amp; hspeed == 0) {
         jumpstage= 2;
-        hspeed= 6;
+        hspeed= 6; // Jump Right
     }
 }
+
+// Standard Blue Soul Gravity: DOWN (Movement 2)
+// Logic for handling jump physics (gravity, variable jump height)
 if(jumpstage == 2 &amp;&amp; movement == 2) {
     if(global.osflavor == 1 &amp;&amp; keyboard_check_direct(38) == 0 &amp;&amp; vspeed &lt;= -1)
         vspeed= -1;
