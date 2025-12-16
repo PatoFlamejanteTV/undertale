@@ -54,6 +54,10 @@ confuse= 0;
 charge= 0;
 ignore_border= 0;
 slam_pain= 0;
+dash_timer= 0;
+dash_cooldown= 0;
+dash_spd= 0;
+dash_direction= 0;
 </string>
           </argument>
         </arguments>
@@ -79,6 +83,35 @@ slam_pain= 0;
             <string>if(global.mnfight != 2) movement= 0;
 else  {
     if(movement == 0) movement= 1;
+}
+if(dash_cooldown > 0) dash_cooldown--;
+if(movement == 1 && dash_cooldown <= 0 && keyboard_check_pressed(67/* C */)) {
+    var dash_dir;
+    dash_dir= -1;
+    if(keyboard_check(37)) dash_dir= 180;
+    if(keyboard_check(39)) dash_dir= 0;
+    if(keyboard_check(38)) dash_dir= 90;
+    if(keyboard_check(40)) dash_dir= 270;
+    if(keyboard_check(37) && keyboard_check(38)) dash_dir= 135;
+    if(keyboard_check(39) && keyboard_check(38)) dash_dir= 45;
+    if(keyboard_check(37) && keyboard_check(40)) dash_dir= 225;
+    if(keyboard_check(39) && keyboard_check(40)) dash_dir= 315;
+    if(dash_dir != -1) {
+        dash_timer= 6;
+        dash_cooldown= 20;
+        dash_spd= 6;
+        dash_direction= dash_dir;
+        snd_play(28/* snd_bell */);
+    }
+}
+if(dash_timer > 0) {
+    dash_timer--;
+    x+= lengthdir_x(dash_spd, dash_direction);
+    y+= lengthdir_y(dash_spd, dash_direction);
+    if(x < global.idealborder[0] + 4) x= global.idealborder[0] + 4;
+    if(x > global.idealborder[1] - 16) x= global.idealborder[1] - 16;
+    if(y < global.idealborder[2] + 4) y= global.idealborder[2] + 4;
+    if(y > global.idealborder[3] - 16) y= global.idealborder[3] - 16;
 }
 global.invc--;
 if(global.invc &gt; 0 || obj_battlecontroller.runaway == 1)
