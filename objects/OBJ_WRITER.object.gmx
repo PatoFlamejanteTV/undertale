@@ -324,83 +324,84 @@ var last_color = draw_get_color();
 n= 1;
 while(n &lt; stringpos + 1) {
     nskip= 0;
-    if(string_char_at(originalstring, n) == "&amp;") {
+    var mychar = string_char_at(originalstring, n);
+    if(mychar == "&amp;") {
         script_execute(148/* SCR_NEWLINE */);
         n++;
+        mychar = string_char_at(originalstring, n);
     }
-    if(string_char_at(originalstring, n) == "^") {
+    if(mychar == "^") {
         if(string_char_at(originalstring, n + 1) == "0") nskip= 1;
-        else  n+= 2;
+        else  {
+            n+= 2;
+            mychar = string_char_at(originalstring, n);
+        }
     }
-    if(string_char_at(originalstring, n) == "\" + chr(ord('"'))+ " + ") {
-        if(string_char_at(originalstring, n + 1) == "R")
-            mycolor= 255;
-        if(string_char_at(originalstring, n + 1) == "G")
-            mycolor= 65280;
-        if(string_char_at(originalstring, n + 1) == "W")
-            mycolor= 16777215;
-        if(string_char_at(originalstring, n + 1) == "Y")
-            mycolor= 65535;
-        if(string_char_at(originalstring, n + 1) == "X")
-            mycolor= 0;
-        if(string_char_at(originalstring, n + 1) == "B")
-            mycolor= 16711680;
-        if(string_char_at(originalstring, n + 1) == "O")
-            mycolor= 4235519;
-        if(string_char_at(originalstring, n + 1) == "L")
-            mycolor= 16754964;
-        if(string_char_at(originalstring, n + 1) == "P")
-            mycolor= 16711935;
-        if(string_char_at(originalstring, n + 1) == "p")
-            mycolor= 13941759;
-        if(string_char_at(originalstring, n + 1) == "C" &amp;&amp; global.inbattle == 0) {
-            if(!instance_exists(783/* obj_choicer */))
-                choicer= instance_create(0, 0, 783/* obj_choicer */);
-            choicer.creator= id;
-            halt= 5;
-        }
-        if(string_char_at(originalstring, n + 1) == "M") {
-            global.flag[20]= real(string_char_at(originalstring, n + 2));
-            n++;
-        }
-        if(string_char_at(originalstring, n + 1) == "E") {
-            global.faceemotion= real(string_char_at(originalstring, n + 2));
-            n++;
-        }
-        if(string_char_at(originalstring, n + 1) == "F") {
-            global.facechoice= real(string_char_at(originalstring, n + 2));
-            global.facechange= 1;
-            n++;
-        }
-        if(string_char_at(originalstring, n + 1) == "T") {
-            newtyper= string_char_at(originalstring, n + 2);
-            if(newtyper == "T") global.typer= 4;
-            if(newtyper == "t") global.typer= 48;
-            if(newtyper == "0") global.typer= 5;
-            if(newtyper == "S") global.typer= 10;
-            if(newtyper == "F") global.typer= 16;
-            if(newtyper == "s") global.typer= 17;
-            if(newtyper == "P") global.typer= 18;
-            if(newtyper == "M") global.typer= 27;
-            if(newtyper == "U") global.typer= 37;
-            if(newtyper == "A") global.typer= 47;
-            if(newtyper == "a") global.typer= 60;
-            if(newtyper == "R") global.typer= 76;
-            script_execute(150/* SCR_TEXTTYPE */, global.typer);
-            global.facechange= 1;
-            n++;
-        }
-        if(string_char_at(originalstring, n + 1) == "z") {
-            sym= real(string_char_at(originalstring, n + 2));
-            sym_s= 837;
-            if(sym == 4) sym_s= 837;
-            if(sym == 4)
-                draw_sprite_ext(sym_s, 0, myx + random(shake) - shake / 2, myy + 10 + random(shake) - shake / 2, 2, 2, 0, 16777215, 1);
-            n++;
+    if(mychar == "\" + chr(ord('"'))+ " + ") {
+        var nextchar = string_char_at(originalstring, n + 1);
+        switch(nextchar) {
+            case "R": mycolor= 255; break;
+            case "G": mycolor= 65280; break;
+            case "W": mycolor= 16777215; break;
+            case "Y": mycolor= 65535; break;
+            case "X": mycolor= 0; break;
+            case "B": mycolor= 16711680; break;
+            case "O": mycolor= 4235519; break;
+            case "L": mycolor= 16754964; break;
+            case "P": mycolor= 16711935; break;
+            case "p": mycolor= 13941759; break;
+            case "C":
+                if(global.inbattle == 0) {
+                    if(!instance_exists(783/* obj_choicer */))
+                        choicer= instance_create(0, 0, 783/* obj_choicer */);
+                    choicer.creator= id;
+                    halt= 5;
+                }
+                break;
+            case "M":
+                global.flag[20]= real(string_char_at(originalstring, n + 2));
+                n++;
+                break;
+            case "E":
+                global.faceemotion= real(string_char_at(originalstring, n + 2));
+                n++;
+                break;
+            case "F":
+                global.facechoice= real(string_char_at(originalstring, n + 2));
+                global.facechange= 1;
+                n++;
+                break;
+            case "T":
+                newtyper= string_char_at(originalstring, n + 2);
+                if(newtyper == "T") global.typer= 4;
+                if(newtyper == "t") global.typer= 48;
+                if(newtyper == "0") global.typer= 5;
+                if(newtyper == "S") global.typer= 10;
+                if(newtyper == "F") global.typer= 16;
+                if(newtyper == "s") global.typer= 17;
+                if(newtyper == "P") global.typer= 18;
+                if(newtyper == "M") global.typer= 27;
+                if(newtyper == "U") global.typer= 37;
+                if(newtyper == "A") global.typer= 47;
+                if(newtyper == "a") global.typer= 60;
+                if(newtyper == "R") global.typer= 76;
+                script_execute(150/* SCR_TEXTTYPE */, global.typer);
+                global.facechange= 1;
+                n++;
+                break;
+            case "z":
+                sym= real(string_char_at(originalstring, n + 2));
+                sym_s= 837;
+                if(sym == 4) sym_s= 837;
+                if(sym == 4)
+                    draw_sprite_ext(sym_s, 0, myx + random(shake) - shake / 2, myy + 10 + random(shake) - shake / 2, 2, 2, 0, 16777215, 1);
+                n++;
+                break;
         }
         n+= 2;
+        mychar = string_char_at(originalstring, n);
     }
-    if(string_char_at(originalstring, n) == "/") {
+    if(mychar == "/") {
         halt= 1;
         if(string_char_at(originalstring, n + 1) == "%") halt= 2;
         if(string_char_at(originalstring, n + 1) == "^" &amp;&amp; string_char_at(originalstring, n + 2) != "0")
@@ -408,7 +409,7 @@ while(n &lt; stringpos + 1) {
         if(string_char_at(originalstring, n + 1) == "*") halt= 6;
         break;
     } else  {
-        if(string_char_at(originalstring, n) == "%") {
+        if(mychar == "%") {
             if(string_char_at(originalstring, n + 1) == "%") {
                 instance_destroy();
                 break;
@@ -425,7 +426,7 @@ while(n &lt; stringpos + 1) {
             }
         } else  {
             if(myx &gt; writingxend) script_execute(148/* SCR_NEWLINE */);
-            myletter= string_char_at(originalstring, n);
+            myletter= mychar;
             if(global.typer == 18) {
                 if(myletter == "l" || myletter == "i") myx+= 2;
                 if(myletter == "I") myx+= 2;
