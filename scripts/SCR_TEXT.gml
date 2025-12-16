@@ -1,4 +1,20 @@
 switch(argument0) {
+    case 9999:
+        scr_sansface(0, 0);
+        global.msg[0]= "* Ring... Ring.../";
+        global.msg[1]= "\\E2* hey./";
+        global.msg[2]= "\\E0* is your refrigerator&  running?/";
+        global.msg[3]= "\\E1* ... wait, i already&  used that one./";
+        global.msg[4]= "\\E0* uhh.../";
+        global.msg[5]= "\\E1* look, i\'ll be&  honest with you./";
+        global.msg[6]= "\\E0* i have no idea how&  you got here./";
+        global.msg[7]= "\\E1* you must have a&  lot of time on your&  hands./";
+        global.msg[8]= "\\E2* or maybe you just&  like breaking things./";
+        global.msg[9]= "\\E0* either way.../";
+        global.msg[10]= "* see ya./";
+        global.msg[11]= "\\TS \\F0 \\T0 %";
+        global.msg[12]= "* Click.../%%";
+        break;
     case 3007:
         global.msg[0]= "\\XLa, la.^3 &Time to wake&up and\\R smell\\X &the^4 pain./";
         global.msg[1]= "* Though^2.^4.^6.^8.&It\'s still a&little shaky./";

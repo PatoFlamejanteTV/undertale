@@ -5011,6 +5011,7 @@
     <object>objects\obj_zoomaton</object>
     <object>objects\obj_ztarget</object>
     <object>objects\obj_zzz</object>
+    <object>objects\obj_secret_sans_event</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room_start</room>
@@ -5347,6 +5348,7 @@
     <room>rooms\room_water_waterfall3</room>
     <room>rooms\room_water_waterfall4</room>
     <room>rooms\TESTROOM</room>
+    <room>rooms\room_secret_sans</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
