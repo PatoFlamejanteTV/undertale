@@ -54,6 +54,8 @@ confuse= 0;
 charge= 0;
 ignore_border= 0;
 slam_pain= 0;
+dash_timer= 0;
+dash_cooldown= 0;
 </string>
           </argument>
         </arguments>
@@ -79,6 +81,15 @@ slam_pain= 0;
             <string>if(global.mnfight != 2) movement= 0;
 else  {
     if(movement == 0) movement= 1;
+}
+if(dash_cooldown &gt; 0) dash_cooldown--;
+if(dash_timer &gt; 0) dash_timer--;
+if(movement == 1) {
+    if(DASH_CHEAT_ENABLED && keyboard_check_pressed(67/* C */) && dash_cooldown <= 0) {
+        dash_timer= 8;
+        dash_cooldown= 20;
+        snd_play(50/* snd_escaped */);
+    }
 }
 global.invc--;
 if(global.invc &gt; 0 || obj_battlecontroller.runaway == 1)
@@ -365,15 +376,17 @@ if(instance_exists(154/* obj_battlecontroller */) &amp;&amp; obj_battlecontrolle
           <argument>
             <kind>1</kind>
             <string>if(movement == 1) {
+    var sp = global.sp;
+    if(dash_timer &gt; 0) sp *= 3;
     if(confuse == 0) {
-        y+= global.sp;
-        if(keyboard_multicheck(16/* SHIFT */) == 1)
-            y-= global.sp / 2;
+        y+= sp;
+        if(keyboard_multicheck(16/* SHIFT */) == 1 &amp;&amp; dash_timer == 0)
+            y-= sp / 2;
     }
     if(confuse == 1 &amp;&amp; y &gt; global.idealborder[2] + 8) {
-        y-= global.sp;
-        if(keyboard_multicheck(16/* SHIFT */) == 1)
-            y+= global.sp / 2;
+        y-= sp;
+        if(keyboard_multicheck(16/* SHIFT */) == 1 &amp;&amp; dash_timer == 0)
+            y+= sp / 2;
     }
 }
 </string>
@@ -399,15 +412,17 @@ if(instance_exists(154/* obj_battlecontroller */) &amp;&amp; obj_battlecontrolle
           <argument>
             <kind>1</kind>
             <string>if(movement == 1 || movement == 2) {
+    var sp = global.sp;
+    if(dash_timer &gt; 0) sp *= 3;
     if(confuse == 0) {
-        x+= global.sp;
-        if(keyboard_multicheck(16/* SHIFT */) == 1)
-            x-= global.sp / 2;
+        x+= sp;
+        if(keyboard_multicheck(16/* SHIFT */) == 1 &amp;&amp; dash_timer == 0)
+            x-= sp / 2;
     }
     if(confuse == 1 &amp;&amp; x &gt; global.idealborder[0] + 8) {
-        x-= global.sp;
-        if(keyboard_multicheck(16/* SHIFT */) == 1)
-            x+= global.sp / 2;
+        x-= sp;
+        if(keyboard_multicheck(16/* SHIFT */) == 1 &amp;&amp; dash_timer == 0)
+            x+= sp / 2;
     }
 }
 </string>
@@ -433,15 +448,17 @@ if(instance_exists(154/* obj_battlecontroller */) &amp;&amp; obj_battlecontrolle
           <argument>
             <kind>1</kind>
             <string>if(movement == 1) {
+    var sp = global.sp;
+    if(dash_timer &gt; 0) sp *= 3;
     if(confuse == 0) {
-        y-= global.sp;
-        if(keyboard_multicheck(16/* SHIFT */) == 1)
-            y+= global.sp / 2;
+        y-= sp;
+        if(keyboard_multicheck(16/* SHIFT */) == 1 &amp;&amp; dash_timer == 0)
+            y+= sp / 2;
     }
     if(confuse == 1 &amp;&amp; y &lt; global.idealborder[3] - 8) {
-        y+= global.sp;
-        if(keyboard_multicheck(16/* SHIFT */) == 1)
-            y-= global.sp / 2;
+        y+= sp;
+        if(keyboard_multicheck(16/* SHIFT */) == 1 &amp;&amp; dash_timer == 0)
+            y-= sp / 2;
     }
 }
 if(movement == 2 &amp;&amp; jumpstage == 1 &amp;&amp; vspeed == 0) {
@@ -471,15 +488,17 @@ if(movement == 2 &amp;&amp; jumpstage == 1 &amp;&amp; vspeed == 0) {
           <argument>
             <kind>1</kind>
             <string>if(movement == 1 || movement == 2) {
+    var sp = global.sp;
+    if(dash_timer &gt; 0) sp *= 3;
     if(confuse == 0) {
-        x-= global.sp;
-        if(keyboard_multicheck(16/* SHIFT */) == 1)
-            x+= global.sp / 2;
+        x-= sp;
+        if(keyboard_multicheck(16/* SHIFT */) == 1 &amp;&amp; dash_timer == 0)
+            x+= sp / 2;
     }
     if(confuse == 1 &amp;&amp; x &lt; global.idealborder[1] - 8) {
-        x+= global.sp;
-        if(keyboard_multicheck(16/* SHIFT */) == 1)
-            x+= global.sp / 2;
+        x+= sp;
+        if(keyboard_multicheck(16/* SHIFT */) == 1 &amp;&amp; dash_timer == 0)
+            x+= sp / 2;
     }
 }
 </string>

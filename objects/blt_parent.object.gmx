@@ -140,7 +140,12 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(global.invc &lt; 1) {
+if(DASH_CHEAT_ENABLED && obj_heart.dash_timer > 0) {
+    snd_play(28/* snd_bell */);
+    instance_destroy();
+    exit;
+}
+if(global.invc &lt; 1) {
     dmgamt= round(dmg - (global.df + global.adef) / 5);
     if(dmgamt &lt; 1) dmgamt= 1;
     global.hp-= dmgamt;
