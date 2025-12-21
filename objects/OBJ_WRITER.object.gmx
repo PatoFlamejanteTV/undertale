@@ -462,8 +462,10 @@ while(n &lt; stringpos + 1) {
                     draw_text(myx + hspeed * 0.7 + 10, myy + vspeed * 0.7, myletter);
                     direction-= 30 * n;
                 }
-            } else 
-                draw_text(myx + random(shake) - shake / 2, myy + random(shake) - shake / 2, myletter);
+            } else {
+                if(shake == 0) draw_text(myx, myy, myletter);
+                else draw_text(myx + random(shake) - shake / 2, myy + random(shake) - shake / 2, myletter);
+            }
             myx+= spacing;
             if(myfont == 8) {
                 if(myletter == "w") myx+= 2;
