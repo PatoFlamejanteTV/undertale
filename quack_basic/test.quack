@@ -1,0 +1,8 @@
+10 REM This is a test of Quack Basic
+20 LET A = 5
+30 PRINT "Starting countdown:"
+40 PRINT A
+50 LET A = A - 1
+60 IF A > 0 THEN GOTO 40
+70 QUACK "Blastoff!"
+80 END

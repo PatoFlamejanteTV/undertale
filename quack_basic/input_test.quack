@@ -1,0 +1,6 @@
+10 PRINT "Enter a number:"
+20 INPUT N
+30 LET R = N * 2
+40 PRINT "Double is:"
+50 PRINT R
+60 END
