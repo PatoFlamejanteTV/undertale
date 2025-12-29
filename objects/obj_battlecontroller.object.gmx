@@ -550,15 +550,24 @@ if(global.bmenuno == 1 &amp;&amp; global.myfight == 0 &amp;&amp; global.mnfight 
         i++;
     }
     xwrite= 190 + xwrite * 16;
-    i= 0;
-    while(i &lt; 3) {
-        if(global.monster[i] == 1 &amp;&amp; !instance_exists(519/* obj_sansb */)) {
-            draw_set_color(255);
-            draw_rectangle(xwrite, 280 + i * 32, xwrite + 100, 280 + i * 32 + 16, 0);
-            draw_set_color(65280);
-            draw_rectangle(xwrite, 280 + i * 32, xwrite + global.monsterhp[i] / global.monstermaxhp[i] * 100, 280 + i * 32 + 16, 0);
+    // Optimization: Check existence once and batch draw calls by color to reduce state changes
+    if(!instance_exists(519/* obj_sansb */)) {
+        draw_set_color(255);
+        i= 0;
+        while(i &lt; 3) {
+            if(global.monster[i] == 1) {
+                draw_rectangle(xwrite, 280 + i * 32, xwrite + 100, 280 + i * 32 + 16, 0);
+            }
+            i++;
         }
-        i++;
+        draw_set_color(65280);
+        i= 0;
+        while(i &lt; 3) {
+            if(global.monster[i] == 1) {
+                draw_rectangle(xwrite, 280 + i * 32, xwrite + global.monsterhp[i] / global.monstermaxhp[i] * 100, 280 + i * 32 + 16, 0);
+            }
+            i++;
+        }
     }
 }
 </string>
