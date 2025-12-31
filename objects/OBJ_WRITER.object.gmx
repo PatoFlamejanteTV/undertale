@@ -321,18 +321,26 @@ if(halt == 4) {
 myy= writingy;
 var last_font = draw_get_font();
 var last_color = draw_get_color();
+// Optimization: Cache char to reduce repeated string_char_at calls (Bolt)
+var ch;
+var escape_token = "\" + chr(ord('"'))+ " + ";
 n= 1;
 while(n &lt; stringpos + 1) {
+    ch = string_char_at(originalstring, n);
     nskip= 0;
-    if(string_char_at(originalstring, n) == "&amp;") {
+    if(ch == "&amp;") {
         script_execute(148/* SCR_NEWLINE */);
         n++;
+        ch = string_char_at(originalstring, n);
     }
-    if(string_char_at(originalstring, n) == "^") {
+    if(ch == "^") {
         if(string_char_at(originalstring, n + 1) == "0") nskip= 1;
-        else  n+= 2;
+        else  {
+            n+= 2;
+            ch = string_char_at(originalstring, n);
+        }
     }
-    if(string_char_at(originalstring, n) == "\" + chr(ord('"'))+ " + ") {
+    if(ch == escape_token) {
         var next_char = string_char_at(originalstring, n + 1);
         switch(next_char) {
             case "R": mycolor= 255; break;
@@ -394,8 +402,9 @@ while(n &lt; stringpos + 1) {
                 break;
         }
         n+= 2;
+        ch = string_char_at(originalstring, n);
     }
-    if(string_char_at(originalstring, n) == "/") {
+    if(ch == "/") {
         halt= 1;
         if(string_char_at(originalstring, n + 1) == "%") halt= 2;
         if(string_char_at(originalstring, n + 1) == "^" &amp;&amp; string_char_at(originalstring, n + 2) != "0")
@@ -403,7 +412,7 @@ while(n &lt; stringpos + 1) {
         if(string_char_at(originalstring, n + 1) == "*") halt= 6;
         break;
     } else  {
-        if(string_char_at(originalstring, n) == "%") {
+        if(ch == "%") {
             if(string_char_at(originalstring, n + 1) == "%") {
                 instance_destroy();
                 break;
